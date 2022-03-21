@@ -1,0 +1,31 @@
+name: Image Processor
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - "*.svg"
+  workflow_dispatch:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install Dependencies
+      run: |
+        pip install scour
+    - name: Process Images
+      run: ./optimize.ps1
+    - name: Push Results
+      # This is to push to github pages but it works for this case as well
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        publish_branch: dist
+        user_name: "github-actions[bot]"
+        user_email: "github-actions[bot]@users.noreply.github.com"
+        commit_message: "Results from: ${{ github.event.head_commit.message }}"
