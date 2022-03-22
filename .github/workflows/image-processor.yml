@@ -29,10 +29,10 @@ jobs:
           yarn global add svgo
           sudo apt-get install -y pngquant
       - name: Make script executable
-        run: chmod +x ./optimization/optimize.ps1
+        run: chmod +x ./processing/process.ps1
       - name: Process Images
         shell: pwsh
-        run: ./optimization/optimize.ps1
+        run: ./processing/process.ps1
       - name: Push Results
         # This is to push to github pages but it works for this case as well
         uses: peaceiris/actions-gh-pages@v3

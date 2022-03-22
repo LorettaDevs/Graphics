@@ -12,7 +12,8 @@ function New-EmptyDirectory {
 }
 
 $sizes = @(
-    16, # favicon
+    16, # small favicon
+    32, # big favicon
     64,
     128,
     196, # apple
