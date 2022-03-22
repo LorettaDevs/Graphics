@@ -1,3 +1,6 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
 function New-EmptyDirectory {
     param (
         [string[]]$Paths
@@ -26,17 +29,17 @@ $sizes = @(
 New-EmptyDirectory "dist"
 
 # SVG Optimization
-svgo --config "$PSScriptRoot/svgo.config.js" "./logo.svg" -o "./dist/logo.svg"
+& svgo --config "$PSScriptRoot/svgo.config.js" "./logo.svg" -o "./dist/logo.svg"
 
 # SVG Rasterizing
 foreach ($size in $sizes) {
     Write-Output "============== ${size}x${size} =============="
     $pngPath = "./dist/logo_${size}x${size}.png"
     Write-Output "resvg"
-    resvg -w $size -h $size "./dist/logo.svg" $pngPath
+    & resvg -w $size -h $size "./dist/logo.svg" $pngPath
     Write-Output "pngquant"
-    pngquant --strip --skip-if-larger --force --quality=45-85 $pngPath --output $pngPath
-    pngquant --strip --skip-if-larger --force --ordered --speed=1 --quality=50-90 $pngPath --output $pngPath
+    & pngquant --strip --skip-if-larger --force --quality=45-85 $pngPath --output $pngPath
+    & pngquant --strip --skip-if-larger --force --ordered --speed=1 --quality=50-90 $pngPath --output $pngPath
     Write-Output "oxipng"
-    oxipng --strip all --opt max --quiet $pngPath
+    & oxipng --strip all --opt max --quiet $pngPath
 }
