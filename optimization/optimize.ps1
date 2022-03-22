@@ -25,7 +25,7 @@ $sizes = @(
 New-EmptyDirectory "dist"
 
 # SVG Optimization
-svgo "./logo.svg" -o "./dist/logo.svg"
+svgo --config "$PSScriptRoot/svgo.config.js" "./logo.svg" -o "./dist/logo.svg"
 
 # SVG Rasterizing
 foreach ($size in $sizes) {
